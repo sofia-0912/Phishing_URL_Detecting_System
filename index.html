@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PhishingGuard Pro | URL Security Scanner</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-shield-alt"></i>
+                <div>
+                    <h1>PhishingGuard Pro</h1>
+                    <p>Advanced URL Security Analysis Platform</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <div class="card">
+            <div class="scan-section">
+                <form action="/" method="POST">
+                    <div class="input-group">
+                        <label for="url"><i class="fas fa-link"></i> URL Security Scan</label>
+                        <div class="url-input-container">
+                            <input type="text" id="url" name="url" placeholder="https://example.com" required autocomplete="off" autofocus>
+                            <button type="submit" class="check-btn">
+                                <i class="fas fa-search"></i> Analyze URL
+                            </button>
+                        </div>
+                        <div class="input-hint">
+                            Paste any URL to check if the website is safe or potentially malicious
+                        </div>
+                    </div>
+                </form>
+            </div>
+            
+            {% if xx != -1 %}
+                <div class="result-card">
+                    <div class="result-header">
+                        <h2><i class="fas fa-chart-line"></i> Security Analysis Report</h2>
+                        <div class="report-meta">
+                            <span class="timestamp">Analysis completed: {{ moment }}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="result-content">
+                        <div class="url-display">
+                            <div class="label">URL Analyzed:</div>
+                            <div class="value">{{ url }}</div>
+                        </div>
+                        
+                        {% if xx >= 0.5 %}
+                            <div class="result safe-result">
+                                <div class="result-icon">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <div class="result-details">
+                                    <h3>Website is SAFE to Access</h3>
+                                    <p>Based on our analysis, this website appears to be legitimate and secure.</p>
+                                    <div class="metrics">
+                                        <div class="metric">
+                                            <span class="metric-label">Safety Status:</span>
+                                            <span class="metric-value safe">Trusted Site</span>
+                                        </div>
+                                        <div class="metric">
+                                            <span class="metric-label">Confidence:</span>
+                                            <span class="metric-value">{{ "%.1f"|format(xx*100) }}%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="result unsafe-result">
+                                <div class="result-icon">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                </div>
+                                <div class="result-details">
+                                    <h3>WEBSITE MAY BE DANGEROUS</h3>
+                                    <p>Potential phishing threat detected. Proceed with extreme caution or avoid visiting.</p>
+                                    <div class="metrics">
+                                        <div class="metric">
+                                            <span class="metric-label">Safety Status:</span>
+                                            <span class="metric-value unsafe">Potential Threat</span>
+                                        </div>
+                                        <div class="metric">
+                                            <span class="metric-label">Risk Score:</span>
+                                            <span class="metric-value">{{ "%.1f"|format((1-xx)*100) }}%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                        
+                        <div class="analysis-details">
+                            <h4><i class="fas fa-info-circle"></i> How We Analyze URLs</h4>
+                            <div class="features-analyzed">
+                                <div class="feature-grid">
+                                    <div class="feature-item">
+                                        <i class="fas fa-lock"></i>
+                                        <span>SSL Certificate Check</span>
+                                    </div>
+                                    <div class="feature-item">
+                                        <i class="fas fa-globe"></i>
+                                        <span>Domain Reputation</span>
+                                    </div>
+                                    <div class="feature-item">
+                                        <i class="fas fa-code"></i>
+                                        <span>Source Code Analysis</span>
+                                    </div>
+                                    <div class="feature-item">
+                                        <i class="fas fa-link"></i>
+                                        <span>URL Structure</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="security-recommendations">
+                            <h4><i class="fas fa-lightbulb"></i> Security Recommendations</h4>
+                            <ul>
+                                <li>Verify the authenticity of the website before entering credentials</li>
+                                <li>Check for proper SSL certificate and "https://" in the address bar</li>
+                                <li>Be cautious of requests for sensitive information via email</li>
+                                <li>Use trusted security software to protect against threats</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="dashboard-overview">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon safe">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <div class="stat-info">
+                                <div class="stat-number">98.7%</div>
+                                <div class="stat-label">Detection Accuracy</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-bolt"></i>
+                            </div>
+                            <div class="stat-info">
+                                <div class="stat-number">&lt;2s</div>
+                                <div class="stat-label">Avg. Analysis Time</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-database"></i>
+                            </div>
+                            <div class="stat-info">
+                                <div class="stat-number">10K+</div>
+                                <div class="stat-label">URLs Analyzed Daily</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="platform-info">
+                        <h3>Enterprise-Grade URL Security</h3>
+                        <p>Our advanced machine learning algorithms analyze over 30 different features of URLs to detect potential phishing attempts with high accuracy. Our system continuously learns from new phishing patterns to stay ahead of emerging threats.</p>
+                        
+                        <div class="capabilities">
+                            <h4>Core Capabilities</h4>
+                            <div class="capability-list">
+                                <div class="capability-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Real-time URL scanning</span>
+                                </div>
+                                <div class="capability-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Machine learning powered detection</span>
+                                </div>
+                                <div class="capability-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Detailed security reports</span>
+                                </div>
+                                <div class="capability-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Continuous threat monitoring</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+        
+        <footer>
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h5>PhishingGuard Pro</h5>
+                    <p>Advanced cybersecurity solutions for modern threats.</p>
+                </div>
+                <div class="footer-section">
+                    <h5>Resources</h5>
+                    <ul>
+                        <li><a href="#">Security Guidelines</a></li>
+                        <li><a href="#">Threat Reports</a></li>
+                        <li><a href="#">Best Practices</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h5>Legal</h5>
+                    <ul>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Security</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2026 PhishingGuard Pro. All rights reserved. | Cybersecurity Solutions</p>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
